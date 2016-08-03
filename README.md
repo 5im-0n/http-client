@@ -10,3 +10,6 @@ cd http-client
 npm install
 node_modules\.bin\electron .
 ```
+
+## screenshot
+![version 0](screenshots/version0.png)
