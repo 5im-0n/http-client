@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>http-client</title>
+
+		<!-- Bootstrap -->
+		<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<!--div class="container" -->
+			<div class="panel panel-default">
+				<div class="panel-heading">Request</div>
+				<div class="panel panel-body">
+					<form>
+						<div class="form-group">
+							<textarea id="request" class="form-control" rows="10"></textarea>
+						</div>
+						<button id="send-request" type="button" class="btn btn-default">Send request</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">Response</div>
+				<div class="panel panel-body">
+					<form>
+						<div class="form-group">
+							<textarea id="response" class="form-control" rows="10"></textarea>
+						</div>
+					</form>
+				</div>
+			</div>
+		<!--/div -->
+
+
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="index.js"></script>
+	</body>
+</html>
