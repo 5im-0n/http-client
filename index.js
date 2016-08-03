@@ -48,6 +48,12 @@
 	}
 
 	//events
+	$(document).on('click', '.request-favorite', function(ev) {
+		var el = $(ev.currentTarget);
+		var request = getRequestFromHistory(el.attr('data-index'));
+		request.favorite = !request.favorite;
+	});
+
 	$(document).on('click', '.request', function(ev) {
 		var el = $(ev.currentTarget);
 		var request = getRequestFromHistory(el.attr('data-index'));
