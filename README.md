@@ -15,7 +15,6 @@ node_modules\.bin\electron .
 ![version 0](screenshots/version0.png)
 
 ## todo
-- save at most 100 requests in history
 - mark requests as favorites
 - rename requests
 - group requests
