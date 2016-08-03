@@ -9,35 +9,50 @@
 
 		<!-- Bootstrap -->
 		<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http-client.css" rel="stylesheet">
 	</head>
 	<body>
-		<!--div class="container" -->
-			<div class="panel panel-default">
-				<div class="panel-heading">Request</div>
-				<div class="panel panel-body">
-					<form>
-						<div class="form-group">
-							<textarea id="request" class="form-control" rows="10"></textarea>
+		<div class="container-fluid">
+			<div id="main-content" class="row">
+
+				<div id="history-and-favorites" class="col-md-4">
+					<ul class="list-group">
+						<li class="list-group-item">Your favorite requests</li>
+						<li class="list-group-item">and your request history</li>
+						<li class="list-group-item">will end up here</li>
+					</ul>
+				</div>
+
+				<div id="request-response" class="col-md-8">
+					<div class="panel panel-default">
+						<div class="panel-heading">Request</div>
+						<div class="panel panel-body">
+							<form>
+								<div class="form-group">
+									<textarea id="request" class="form-control" rows="10"></textarea>
+								</div>
+								<button id="send-request" type="button" class="btn btn-default">Send request</button>
+							</form>
 						</div>
-						<button id="send-request" type="button" class="btn btn-default">Send request</button>
-					</form>
+					</div>
+
+					<div class="panel panel-default">
+						<div class="panel-heading">Response</div>
+						<div class="panel panel-body">
+							<form>
+								<div class="form-group">
+									<textarea id="response" class="form-control" rows="10"></textarea>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="panel panel-default">
-				<div class="panel-heading">Response</div>
-				<div class="panel panel-body">
-					<form>
-						<div class="form-group">
-							<textarea id="response" class="form-control" rows="10"></textarea>
-						</div>
-					</form>
-				</div>
-			</div>
-		<!--/div -->
-
-
-		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript">
+			window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');
+		</script>
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="index.js"></script>
 	</body>
