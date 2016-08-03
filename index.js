@@ -57,15 +57,24 @@
 		$('#history li').draggable({
 			connectToSortable: '#favorites ul',
 			helper: 'clone',
-			revert: 'invalid'
+			revert: 'invalid',
+			stop: function(event, ui) {
+				console.log(event, ui);
+			}
 		});
 	}
 
 
 	//events
-	$(document).on('click', '.request', function(ev) {
+	$(document).on('click', '#history .request', function(ev) {
 		var el = $(ev.currentTarget);
 		var request = getRequestFromHistory(el.attr('data-index'));
+		document.getElementById('request').value = request.request;
+	});
+
+	$(document).on('click', '#favorites .request', function(ev) {
+		var el = $(ev.currentTarget);
+		var request = getRequestFromFavorites(el.attr('data-index'));
 		document.getElementById('request').value = request.request;
 	});
 
