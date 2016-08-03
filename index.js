@@ -30,7 +30,13 @@
 			history = [];
 		}
 		history.unshift(requestItem);
+
+		var maxElementsInHistory = 100;
+		if (history.length > maxElementsInHistory) {
+			history.splice(maxElementsInHistory - history.length, history.length);
+		}
 		localStorage.setItem('requests', JSON.stringify(history));
+
 	}
 
 	var getRequestFromHistory = function(index) {
