@@ -1,4 +1,7 @@
 (function($) {
+	var xmlhttp = new XMLHttpRequest();
+
+
 	//utility functions
 	var loadHistory = function() {
 		var history = JSON.parse(localStorage.getItem('requests'));
@@ -28,11 +31,14 @@
 		}
 		history.unshift(requestItem);
 		localStorage.setItem('requests', JSON.stringify(history));
-		localStorage.setItem('lastexecuted', JSON.stringify(history));
 	}
 
 	var getRequestFromHistory = function(index) {
-		return JSON.parse(localStorage.getItem('requests'))[index];
+		var history = JSON.parse(localStorage.getItem('requests'));
+		if (history && history.length > index) {
+			return history[index];
+		}
+		return null;
 	}
 
 
@@ -41,6 +47,10 @@
 		var el = $(ev.currentTarget);
 		var request = getRequestFromHistory(el.attr('data-index'));
 		document.getElementById('request').value = request.request;
+	});
+
+	$(document).on('click', '#abort-request', function(ev) {
+		xmlhttp.abort();
 	});
 
 	$(document).on('click', '#send-request', function() {
@@ -69,8 +79,6 @@
 		saveInHistory(method, url, request);
 		loadHistory();
 
-		var xmlhttp = new XMLHttpRequest();
-
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
 				var response = '';
@@ -80,6 +88,9 @@
 				response += xmlhttp.responseText;
 				document.getElementById("response").value = response;
 			}
+
+			$('#send-request-spinner').hide();
+			$('#abort-request').hide();
 		};
 
 		try {
@@ -91,6 +102,9 @@
 			}
 
 			xmlhttp.send(body);
+
+			$('#send-request-spinner').show();
+			$('#abort-request').show();
 		} catch (ex) {
 			document.getElementById("response").value = ex;
 		}
@@ -99,4 +113,13 @@
 
 	//startup
 	loadHistory();
+	var lastrequest = getRequestFromHistory(0);
+	if (lastrequest == null) {
+		document.getElementById('request').value = `POST http://requestb.in/qylhrqqy HTTP/1.1
+Content-Type: text/plain;charset=UTF-8
+
+hi!`;
+	} else {
+		document.getElementById('request').value = lastrequest ? lastrequest.request : '';
+	}
 })(jQuery)
