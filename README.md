@@ -14,6 +14,10 @@ node_modules\.bin\electron .
 ## screenshot
 ![version 0](screenshots/version0.png)
 
+## package
+### linux
+`./node_modules/.bin/electron-packager . http-client --platform=linux --arch=x64`
+
 ## todo
 - mark requests as favorites
 - rename requests
