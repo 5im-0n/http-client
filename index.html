@@ -16,11 +16,20 @@
 			<div id="main-content" class="row">
 
 				<div id="history-and-favorites" class="col-md-4">
-					<ul class="list-group">
-						<li class="list-group-item">Your favorite requests</li>
-						<li class="list-group-item">and your request history</li>
-						<li class="list-group-item">will end up here</li>
-					</ul>
+					<div class="row">
+						<div id="favorites" class="col-md-12">
+							<ul class="list-group">
+								<li class="list-group-item">Drag your favorite requests here</li>
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div id="history" class="col-md-12">
+							<ul class="list-group">
+								<li class="list-group-item">Your history will end up here</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 
 				<div id="request-response" class="col-md-8">
@@ -54,6 +63,7 @@
 		<script type="text/javascript">
 			window.$ = window.jQuery = require('./node_modules/jquery/dist/jquery.min.js');
 		</script>
+		<script src="node_modules/jqueryui/jquery-ui.js"></script>
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="index.js"></script>
 	</body>

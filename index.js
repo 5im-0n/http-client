@@ -13,9 +13,10 @@
 				historyHTML += '<li class="list-group-item"><a href="javascript:///" class="request" data-index="' + i + '">' + h.method + ' ' + h.url + '</a></li>';
 			}
 
-			document.getElementById('history-and-favorites').innerHTML = historyHTML;
-		}
+			document.getElementById('history').innerHTML = historyHTML;
 
+			makeDraggableAndSortable();
+		}
 	}
 
 	var saveInHistory = function(method, url, request) {
@@ -45,6 +46,19 @@
 			return history[index];
 		}
 		return null;
+	}
+
+	var makeDraggableAndSortable = function() {
+		//make requests draggable to favorites
+		$('#favorites ul').sortable({
+			revert: true
+		});
+
+		$('#history li').draggable({
+			connectToSortable: '#favorites ul',
+			helper: 'clone',
+			revert: 'invalid'
+		});
 	}
 
 
@@ -118,14 +132,17 @@
 
 
 	//startup
-	loadHistory();
-	var lastrequest = getRequestFromHistory(0);
-	if (lastrequest == null) {
-		document.getElementById('request').value = `POST http://requestb.in/qylhrqqy HTTP/1.1
+	(function() {
+		loadHistory();
+
+		var lastrequest = getRequestFromHistory(0);
+		if (lastrequest == null) {
+			document.getElementById('request').value = `POST http://requestb.in/qylhrqqy HTTP/1.1
 Content-Type: text/plain;charset=UTF-8
 
 hi!`;
-	} else {
-		document.getElementById('request').value = lastrequest ? lastrequest.request : '';
-	}
+		} else {
+			document.getElementById('request').value = lastrequest ? lastrequest.request : '';
+		}
+	})();
 })(jQuery)
