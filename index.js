@@ -10,12 +10,11 @@
 			var historyHTML = '';
 			for (var i=0; i<history.length; i++) {
 				var h = history[i];
-				historyHTML += '<li class="list-group-item"><a href="javascript:///" class="request" data-index="' + i + '">' + h.method + ' ' + h.url + '</a></li>';
+				historyHTML += '<li class="list-group-item"><a href="javascript:///" class="request" data-index="' + i + '">' + h.method + ' ' + h.url + '</a>' +
+				'<span class="glyphicon glyphicon-star-empty pull-right request-favorite"></span></li>';
 			}
 
 			document.getElementById('history').innerHTML = historyHTML;
-
-			makeDraggableAndSortable();
 		}
 	}
 
@@ -48,31 +47,14 @@
 		return null;
 	}
 
-	var makeDraggableAndSortable = function() {
-		//make requests draggable to favorites
-		$('#favorites ul').sortable({
-			revert: true
-		});
-
-		$('#history li').draggable({
-			connectToSortable: '#favorites ul',
-			helper: 'clone',
-			revert: 'invalid',
-			stop: function(event, ui) {
-				console.log(event, ui);
-			}
-		});
-	}
-
-
 	//events
-	$(document).on('click', '#history .request', function(ev) {
+	$(document).on('click', '.request', function(ev) {
 		var el = $(ev.currentTarget);
 		var request = getRequestFromHistory(el.attr('data-index'));
 		document.getElementById('request').value = request.request;
 	});
 
-	$(document).on('click', '#favorites .request', function(ev) {
+	$(document).on('click', '.request', function(ev) {
 		var el = $(ev.currentTarget);
 		var request = getRequestFromFavorites(el.attr('data-index'));
 		document.getElementById('request').value = request.request;
