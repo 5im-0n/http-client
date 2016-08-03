@@ -11,7 +11,7 @@
 			for (var i=0; i<history.length; i++) {
 				var h = history[i];
 				historyHTML += '<li class="list-group-item"><a href="javascript:///" class="request" data-index="' + i + '">' + h.method + ' ' + h.url + '</a>' +
-				'<span class="glyphicon glyphicon-star-empty pull-right request-favorite"></span></li>';
+				'<span class="glyphicon glyphicon-heart-empty pull-right request-favorite"></span></li>';
 			}
 
 			document.getElementById('history').innerHTML = historyHTML;
