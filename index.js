@@ -10,33 +10,35 @@
 			var historyHTML = '';
 			for (var i=0; i<history.length; i++) {
 				var h = history[i];
-				historyHTML += '<li class="list-group-item"><a href="javascript:///" class="request" data-index="' + i + '">' + h.method + ' ' + h.url + '</a>' +
-				'<span class="glyphicon glyphicon-heart-empty pull-right request-favorite"></span></li>';
+				historyHTML += '<li class="list-group-item" data-index="' + i + '"><a href="javascript:///" class="request">' + h.description + '</a>' +
+				'<span class="glyphicon glyphicon-heart' + (h.favorite ? '' : '-empty') + ' pull-right request-favorite"></span></li>';
 			}
 
 			document.getElementById('history').innerHTML = historyHTML;
 		}
 	}
 
-	var saveInHistory = function(method, url, request) {
-		var requestItem = {
-			method: method,
-			url: url,
-			request: request
-		};
+	var saveInHistory = function(request, index) {
+		if (typeof index === 'undefined') {
+			index = 0;
+		}
+
+		if (typeof request.favorite === 'undefined') {
+			request.favorite = false;
+		}
 
 		var history = JSON.parse(localStorage.getItem('requests'));
 		if (history == null) {
 			history = [];
 		}
-		history.unshift(requestItem);
+		history.splice(index, 0, request);
 
+		//purge old
 		var maxElementsInHistory = 100;
 		if (history.length > maxElementsInHistory) {
 			history.splice(maxElementsInHistory - history.length, history.length);
 		}
 		localStorage.setItem('requests', JSON.stringify(history));
-
 	}
 
 	var getRequestFromHistory = function(index) {
@@ -47,22 +49,33 @@
 		return null;
 	}
 
+	var removeRequestFromHistory = function(index) {
+		var history = JSON.parse(localStorage.getItem('requests'));
+		if (history && history.length > index) {
+			history.splice(index, 1);
+			localStorage.setItem('requests', JSON.stringify(history));
+		}
+	}
+
 	//events
 	$(document).on('click', '.request-favorite', function(ev) {
 		var el = $(ev.currentTarget);
-		var request = getRequestFromHistory(el.attr('data-index'));
+		var index = el.parent().attr('data-index');
+		var newindex = 0;
+		var request = getRequestFromHistory(index);
+		if (typeof request.favorite === 'undefined') {
+			request.favorite = false;
+		}
 		request.favorite = !request.favorite;
+		newindex = request.favorite ? 0 : index;
+		removeRequestFromHistory(index);
+		saveInHistory(request, newindex);
+		loadHistory();
 	});
 
 	$(document).on('click', '.request', function(ev) {
 		var el = $(ev.currentTarget);
-		var request = getRequestFromHistory(el.attr('data-index'));
-		document.getElementById('request').value = request.request;
-	});
-
-	$(document).on('click', '.request', function(ev) {
-		var el = $(ev.currentTarget);
-		var request = getRequestFromFavorites(el.attr('data-index'));
+		var request = getRequestFromHistory(el.parent().attr('data-index'));
 		document.getElementById('request').value = request.request;
 	});
 
@@ -93,7 +106,10 @@
 			});
 		}
 
-		saveInHistory(method, url, request);
+		saveInHistory({
+			description: method + ' ' + url,
+			request: request
+		});
 		loadHistory();
 
 		xmlhttp.onreadystatechange = function() {
