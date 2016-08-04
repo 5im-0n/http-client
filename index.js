@@ -175,7 +175,8 @@ Content-Type: text/plain;charset=UTF-8
 
 hi!`;
 		} else {
-			document.getElementById('request').value = lastrequest ? lastrequest.request : '';
+			document.getElementById('request').value = lastrequest.request;
+			document.getElementById('description').value = request.description;
 		}
 	})();
 })(jQuery)
