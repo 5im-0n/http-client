@@ -58,6 +58,10 @@
 		}
 	}
 
+	var getFirstIndexAfterFavorites = function() {
+		return parseInt($('.glyphicon-heart').last().parent().attr('data-index')) + 1;
+	}
+
 	//events
 	$(document).on('click', '.request-favorite', function(ev) {
 		var el = $(ev.currentTarget);
@@ -117,7 +121,7 @@
 		saveInHistory({
 			description: method + ' ' + url,
 			request: request
-		});
+		}, getFirstIndexAfterFavorites());
 		loadHistory();
 
 		xmlhttp.onreadystatechange = function() {
