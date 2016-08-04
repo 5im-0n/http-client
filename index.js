@@ -167,7 +167,10 @@
 		popover.popover('destroy');
 	});
 
-
+	$(document).on('click', '#clear-request', function(ev) {
+		document.getElementById('description').value = '';
+		document.getElementById('request').value = '';
+	});
 
 	$(document).on('click', '#abort-request', function(ev) {
 		xmlhttp.abort();
