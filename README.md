@@ -14,9 +14,5 @@ node_modules\.bin\electron .
 ## screenshot
 ![version 1](screenshots/version1.png)
 
-## package
-### linux
-`./node_modules/.bin/electron-packager . http-client --platform=linux --arch=x64`
-
-###windows
-`node_modules\.bin\electron-packager . http-client --platform win32 --arch=x64`
+## download
+Latest release: https://github.com/S2-/http-client/releases
