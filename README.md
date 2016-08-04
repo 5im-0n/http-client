@@ -18,6 +18,9 @@ node_modules\.bin\electron .
 ### linux
 `./node_modules/.bin/electron-packager . http-client --platform=linux --arch=x64`
 
+###windows
+`node_modules\.bin\electron-packager . http-client --platform win32 --arch=x64`
+
 ## todo
 - mark requests as favorites
 - rename requests
