@@ -21,16 +21,19 @@
 		}
 	}
 
-	var saveInHistory = function(request, index) {
+	var saveInHistory = function(request, index, storage) {
 		if (typeof index === 'undefined') {
 			index = 0;
+		}
+		if (typeof storage === 'undefined') {
+			storage = 'requests';
 		}
 
 		if (typeof request.favorite === 'undefined') {
 			request.favorite = false;
 		}
 
-		var history = JSON.parse(localStorage.getItem('requests'));
+		var history = JSON.parse(localStorage.getItem(storage));
 		if (history == null) {
 			history = [];
 		}
@@ -41,23 +44,38 @@
 		if (history.length > maxElementsInHistory) {
 			history.splice(maxElementsInHistory - history.length, history.length);
 		}
-		localStorage.setItem('requests', JSON.stringify(history));
+		localStorage.setItem(storage, JSON.stringify(history));
 	}
 
-	var getRequestFromHistory = function(index) {
-		var history = JSON.parse(localStorage.getItem('requests'));
+	var getRequestFromHistory = function(index, storage) {
+		if (typeof storage === 'undefined') {
+			storage = 'requests';
+		}
+
+		var history = JSON.parse(localStorage.getItem(storage));
 		if (history && history.length > index) {
 			return history[index];
 		}
 		return null;
 	}
 
-	var removeRequestFromHistory = function(index) {
-		var history = JSON.parse(localStorage.getItem('requests'));
+	var removeRequestFromHistory = function(index, storage) {
+		if (typeof storage === 'undefined') {
+			storage = 'requests';
+		}
+		var history = JSON.parse(localStorage.getItem(storage));
 		if (history && history.length > index) {
 			history.splice(index, 1);
-			localStorage.setItem('requests', JSON.stringify(history));
+			localStorage.setItem(storage, JSON.stringify(history));
 		}
+	}
+
+	var removeAllRequestFromHistory = function(storage) {
+		if (typeof storage === 'undefined') {
+			storage = 'requests';
+		}
+		var history = [];
+		localStorage.setItem(storage, JSON.stringify(history));
 	}
 
 	var getFirstIndexAfterFavorites = function() {
@@ -126,10 +144,14 @@
 			description = method + ' ' + url;
 			document.getElementById('description').value = description;
 		}
-		saveInHistory({
+
+		var requestItem = {
 			description: description,
 			request: request
-		}, getFirstIndexAfterFavorites());
+		};
+		saveInHistory(requestItem, getFirstIndexAfterFavorites());
+		removeAllRequestFromHistory('lastrequest');
+		saveInHistory(requestItem, 0, 'lastrequest');
 		loadHistory();
 
 		xmlhttp.onreadystatechange = function() {
@@ -168,7 +190,7 @@
 	(function() {
 		loadHistory();
 
-		var lastrequest = getRequestFromHistory(0);
+		var lastrequest = getRequestFromHistory(0, 'lastrequest');
 		if (lastrequest == null) {
 			document.getElementById('request').value = `POST http://requestb.in/qylhrqqy HTTP/1.1
 Content-Type: text/plain;charset=UTF-8
@@ -176,7 +198,7 @@ Content-Type: text/plain;charset=UTF-8
 hi!`;
 		} else {
 			document.getElementById('request').value = lastrequest.request;
-			document.getElementById('description').value = request.description;
+			document.getElementById('description').value = lastrequest.description;
 		}
 	})();
 })(jQuery)
