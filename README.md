@@ -20,8 +20,3 @@ node_modules\.bin\electron .
 
 ###windows
 `node_modules\.bin\electron-packager . http-client --platform win32 --arch=x64`
-
-## todo
-- mark requests as favorites
-- rename requests
-- group requests
