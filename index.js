@@ -125,7 +125,8 @@
 			trigger: 'manual',
 			html : true,
 			title: 'Description',
-			content: '<form class="request-edit-description-rename"><input type="text" class="form-control" data-index="' + index + '" value="' + description + '"><button type="submit" class="btn btn-primary request-edit-description-rename">Rename</button><button type="submit" class="btn btn-default request-edit-description-cancel">Cancel</button></form>'
+			content: '<form class="request-edit-description-rename"><input type="text" class="form-control" data-index="' + index + '" value="' + description + '"><button type="submit" class="btn btn-primary request-edit-description-rename">Rename</button><button type="submit" class="btn btn-default request-edit-description-cancel">Cancel</button></form>',
+			template: '<div class="popover" style="max-width: 600px; width: 350px;"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 		});
 
 		el.popover('show');
