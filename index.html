@@ -60,5 +60,14 @@
 		<script src="node_modules/jqueryui/jquery-ui.js"></script> <!-- this is not used at the moment -->
 		<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="index.js"></script>
+
+		<!-- dev tools key -->
+		<script>
+			document.addEventListener("keydown", function (e) {
+				if (e.which === 123) {
+					require('electron').remote.getCurrentWindow().toggleDevTools();
+				}
+			});
+		</script>
 	</body>
 </html>
