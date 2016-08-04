@@ -11,11 +11,13 @@
 			for (var i=0; i<history.length; i++) {
 				var h = history[i];
 				historyHTML += '<li class="list-group-item" data-index="' + i + '"><a href="javascript:///" class="request">' + h.description + '</a>' +
+				'<span class="glyphicon glyphicon-edit pull-right request-edit"></span>' +
 				'<span class="glyphicon glyphicon-remove pull-right request-remove"></span>' +
 				'<span class="glyphicon glyphicon-heart' + (h.favorite ? '' : '-empty') + ' pull-right request-favorite"></span></li>';
 			}
 
 			document.getElementById('history').innerHTML = historyHTML;
+
 		} else {
 			document.getElementById('history').innerHTML = '<li class="list-group-item">Your history will end up here</li>';
 		}
@@ -111,6 +113,60 @@
 		document.getElementById('request').value = request.request;
 		document.getElementById('description').value = request.description;
 	});
+
+	$(document).on('click', '.request-edit', function(ev) {
+		var el = $(ev.currentTarget);
+		var index = el.parent().attr('data-index');
+		var request = getRequestFromHistory(index);
+		var description = new Option(request.description).innerHTML; //html escape
+
+		var editDescriptionPopover = el.popover({
+			container: 'body',
+			trigger: 'manual',
+			html : true,
+			title: 'Description',
+			content: '<form class="request-edit-description-rename"><input type="text" class="form-control" data-index="' + index + '" value="' + description + '"><button type="submit" class="btn btn-primary request-edit-description-rename">Rename</button><button type="submit" class="btn btn-default request-edit-description-cancel">Cancel</button></form>'
+		});
+
+		el.popover('show');
+		el.on('shown.bs.popover', function () {
+			var input = $('input[data-index="' + index + '"]', '.request-edit-description-rename');
+			input.focus();
+			input[0].setSelectionRange(0, input.val().length);
+		});
+	});
+
+	$(document).on('submit', '.request-edit-description-rename', function(ev) {
+		ev.preventDefault();
+		var el = $(ev.currentTarget);
+		var descriptionInput = $('input', el);
+		var index = descriptionInput.attr('data-index');
+		var newDescription = descriptionInput.val();
+		var request = getRequestFromHistory(index);
+
+		//save new description
+		request.description = newDescription;
+		removeRequestFromHistory(index);
+		saveInHistory(request, index);
+
+		//remove popover
+		var popover = $('.request-edit', 'li[data-index="' + index + '"]');
+		popover.popover('destroy');
+
+		loadHistory();
+	});
+
+	$(document).on('click', '.request-edit-description-cancel', function(ev) {
+		ev.preventDefault();
+		var el = $(ev.currentTarget);
+		var descriptionInput = $('input', el.parent());
+		var index = descriptionInput.attr('data-index');
+
+		var popover = $('.request-edit', 'li[data-index="' + index + '"]');
+		popover.popover('destroy');
+	});
+
+
 
 	$(document).on('click', '#abort-request', function(ev) {
 		xmlhttp.abort();
