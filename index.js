@@ -89,6 +89,7 @@
 		var el = $(ev.currentTarget);
 		var request = getRequestFromHistory(el.parent().attr('data-index'));
 		document.getElementById('request').value = request.request;
+		document.getElementById('description').value = request.description;
 	});
 
 	$(document).on('click', '#abort-request', function(ev) {
@@ -104,6 +105,7 @@
 		var headers = [];
 		var hasBody = request.split('\n\n');
 		var body = '';
+		var description = document.getElementById('description').value;
 		if (hasBody.length > 1) {
 			body = hasBody[1];
 		}
@@ -118,8 +120,12 @@
 			});
 		}
 
+		if (description === '') {
+			description = method + ' ' + url;
+			document.getElementById('description').value = description;
+		}
 		saveInHistory({
-			description: method + ' ' + url,
+			description: description,
 			request: request
 		}, getFirstIndexAfterFavorites());
 		loadHistory();
