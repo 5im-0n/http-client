@@ -11,6 +11,7 @@
 			for (var i=0; i<history.length; i++) {
 				var h = history[i];
 				historyHTML += '<li class="list-group-item" data-index="' + i + '"><a href="javascript:///" class="request">' + h.description + '</a>' +
+				'<span class="glyphicon glyphicon-remove pull-right request-remove"></span>' +
 				'<span class="glyphicon glyphicon-heart' + (h.favorite ? '' : '-empty') + ' pull-right request-favorite"></span></li>';
 			}
 
@@ -70,6 +71,13 @@
 		newindex = request.favorite ? 0 : index;
 		removeRequestFromHistory(index);
 		saveInHistory(request, newindex);
+		loadHistory();
+	});
+
+	$(document).on('click', '.request-remove', function(ev) {
+		var el = $(ev.currentTarget);
+		var index = el.parent().attr('data-index');
+		removeRequestFromHistory(index);
 		loadHistory();
 	});
 
