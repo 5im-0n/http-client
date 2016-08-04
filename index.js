@@ -16,6 +16,8 @@
 			}
 
 			document.getElementById('history').innerHTML = historyHTML;
+		} else {
+			document.getElementById('history').innerHTML = '<li class="list-group-item">Your history will end up here</li>';
 		}
 	}
 
