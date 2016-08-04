@@ -12,7 +12,7 @@ node_modules\.bin\electron .
 ```
 
 ## screenshot
-![version 0](screenshots/version0.png)
+![version 1](screenshots/version1.png)
 
 ## package
 ### linux
