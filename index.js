@@ -81,7 +81,11 @@
 	}
 
 	var getFirstIndexAfterFavorites = function() {
-		return parseInt($('.glyphicon-heart').last().parent().attr('data-index')) + 1;
+		var favorites = $('.glyphicon-heart').last().parent();
+		if (favorites.length === 0) {
+			return 0;
+		}
+		return parseInt(favorites.attr('data-index')) + 1;
 	}
 
 	//events
@@ -94,7 +98,7 @@
 			request.favorite = false;
 		}
 		request.favorite = !request.favorite;
-		newindex = request.favorite ? 0 : index;
+		newindex = request.favorite ? 0 : getFirstIndexAfterFavorites() - 1;
 		removeRequestFromHistory(index);
 		saveInHistory(request, newindex);
 		loadHistory();
