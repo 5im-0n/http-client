@@ -21,6 +21,38 @@
 		} else {
 			document.getElementById('history').innerHTML = '<li class="list-group-item">Your history will end up here</li>';
 		}
+
+		$('#history').sortable({
+			update: function(event, ui) {
+				var oldIndex = parseInt(ui.item.attr('data-index'));
+				var prev = ui.item.prev('li');
+				var newIndex = (prev.length === 0 ? 0 : parseInt(prev.attr('data-index')));
+				if (newIndex !== 0 && ui.position.top < ui.originalPosition.top) {
+					newIndex += 1;
+				}
+
+				//move the array element
+				var newHistory = moveArrayElement(history, oldIndex, newIndex);
+
+				//update favorite status
+				var nextIndex = newIndex + 1;
+				if (nextIndex > 0 && nextIndex < 100) {
+					if (newHistory[nextIndex].favorite) {
+						newHistory[newIndex].favorite = true;
+					}
+				}
+				var prevIndex = newIndex - 1;
+				if (prevIndex > 0 && prevIndex < 100) {
+					if (!newHistory[prevIndex].favorite) {
+						newHistory[newIndex].favorite = false;
+					}
+				}
+
+				localStorage.setItem('requests', JSON.stringify(newHistory));
+				loadHistory();
+			}
+		});
+		$('#history').disableSelection();
 	}
 
 	var saveInHistory = function(request, index, storage) {
@@ -248,6 +280,19 @@
 			document.getElementById("response").value = ex;
 		}
 	});
+
+
+	// generic stuff
+	moveArrayElement = function (array, oldIndex, newIndex) {
+		if (newIndex >= array.length) {
+			var k = newIndex - array.length;
+			while ((k--) + 1) {
+				array.push(undefined);
+			}
+		}
+		array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
+		return array;
+	};
 
 
 	//startup
