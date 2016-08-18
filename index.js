@@ -140,7 +140,7 @@
 		var el = $(ev.currentTarget);
 		var index = el.parent().attr('data-index');
 		removeRequestFromHistory(index);
-		loadHistory();
+		el.parent().effect('explode', loadHistory);
 	});
 
 	$(document).on('click', '.request', function(ev) {
