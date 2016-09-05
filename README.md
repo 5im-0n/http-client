@@ -20,3 +20,6 @@ the importanto stuff is in just one file [index.js](index.js)
 
 ## download
 Latest release: https://github.com/S2-/http-client/releases
+
+## todo
+- make folders of requests, so they can be grouped together
